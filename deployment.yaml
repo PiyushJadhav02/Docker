@@ -29,8 +29,7 @@ metadata:
 spec:
   type: NodePort
   selector:
-    matchLables:
-      app: test
+    app: test
   ports:
     - protocol: TCP
       port: 8080
