@@ -7,12 +7,12 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: Test
+      app: test
   replicas: 3
   template:
     metadata:
       labels:
-        app: Test
+        app: test
     spec:
       containers:
         - name: test
