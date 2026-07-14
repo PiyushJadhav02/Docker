@@ -12,6 +12,24 @@ pipeline{
                 git 'https://github.com/jenkins-docs/simple-java-maven-app.git'
             }
         }
+
+	stage('Read Secret') {
+            steps {
+                script {
+                    def secret = sh(
+                        script: '''
+                        aws secretsmanager get-secret-value \
+                        --secret-id db-secret \
+                        --query SecretString \
+                        --output text
+                        ''',
+                        returnStdout: true
+                    ).trim()
+
+                    echo "Secret fetched successfully"
+                }
+            }
+        }
         
         stage('Compile'){
             steps{
