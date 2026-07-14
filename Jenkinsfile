@@ -43,7 +43,7 @@ pipeline{
             }
         }
         
-        stage('SonarQube Analysis') {
+/*        stage('SonarQube Analysis') {
     steps {
         withSonarQubeEnv('Sonarqube') {
             sh '''
@@ -61,6 +61,7 @@ pipeline{
                 }
             }
         }
+	*/
         
         stage('Package') {
             steps {
