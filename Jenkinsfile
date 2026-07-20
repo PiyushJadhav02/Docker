@@ -19,7 +19,7 @@ pipeline{
                     def secret = sh(
                         script: '''
                         aws secretsmanager get-secret-value \
-                        --secret-id db-secret \
+                        --secret-id test \
                         --query SecretString \
                         --output text
                         ''',
