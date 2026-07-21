@@ -26,7 +26,7 @@ pipeline{
                         returnStdout: true
                     ).trim()
 
-                    echo "Secret fetched successfully"
+                    echo "Secret ${secret}"
                 }
             }
         }
