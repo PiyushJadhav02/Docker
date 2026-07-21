@@ -76,5 +76,12 @@ pipeline{
                 sh 'mvn package'
             }
         }
+
+	stage('Build'){
+		agent {label 'test'}
+		steps{
+			sh 'docker build -t java-app .'
+		}
+	}
     }
 }
