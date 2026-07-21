@@ -83,5 +83,12 @@ pipeline{
 			sh 'docker build -t java-app .'
 		}
 	}
+
+	stage("Scan Image"){
+		agent {label 'test'}
+		steps{
+			sh 'sudo env TMPDIR=/var/tmp/trivy trivy image java-app:latest'
+		}
+	}
     }
 }
