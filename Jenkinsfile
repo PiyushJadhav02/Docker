@@ -1,6 +1,6 @@
 pipeline{
     
-    agent {label 'none'}
+    agent none
     
     tools{
         maven 'Maven'
