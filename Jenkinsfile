@@ -34,12 +34,14 @@ pipeline{
         }
         
         stage('Compile'){
+			agent {label 'test'}
             steps{
                 sh 'mvn clean compile'
             }
         }
         
         stage('Test'){
+			agent {label 'test'}
             steps{
                 sh 'mvn test'
             }
@@ -48,6 +50,7 @@ pipeline{
         stage('SonarQube Analysis') {
 	agent {label 'SonarQube-Server'}
     steps {
+		git 'https://github.com/jenkins-docs/simple-java-maven-app.git'
         withSonarQubeEnv('Sonarqube') {
             sh '''
                 mvn sonar:sonar \
@@ -68,6 +71,7 @@ pipeline{
 	
         
         stage('Package') {
+			agent {label 'test'}
             steps {
                 sh 'mvn package'
             }
