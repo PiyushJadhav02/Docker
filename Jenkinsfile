@@ -1,6 +1,6 @@
 pipeline{
     
-    agent {label 'test'}
+    agent {label 'none'}
     
     tools{
         maven 'Maven'
@@ -8,12 +8,14 @@ pipeline{
     
     stages{
         stage("Checkout"){
+			agent {label 'test'}
             steps{
                 git 'https://github.com/jenkins-docs/simple-java-maven-app.git'
             }
         }
 
 	stage('Read Secret') {
+		agent {label 'test'}
             steps {
                 script {
                     def secret = sh(
@@ -43,7 +45,8 @@ pipeline{
             }
         }
         
-/*        stage('SonarQube Analysis') {
+        stage('SonarQube Analysis') {
+	agent {label 'SonarQube-Server'}
     steps {
         withSonarQubeEnv('Sonarqube') {
             sh '''
@@ -55,13 +58,14 @@ pipeline{
     }
 
         stage('Quality Gate') {
+			agent {label 'SonarQube-Server'}
             steps {
                 timeout(time: 10, unit: 'MINUTES') {
                     waitForQualityGate abortPipeline: true
                 }
             }
         }
-	*/
+	
         
         stage('Package') {
             steps {
