@@ -80,7 +80,7 @@ pipeline{
 	stage('Build'){
 		agent {label 'test'}
 		steps{
-			sh 'docker build -t java-app .'
+			sh 'sudo docker build -t java-app .'
 		}
 	}
 
