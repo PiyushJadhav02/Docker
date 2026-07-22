@@ -95,9 +95,9 @@ pipeline{
 		agent{label 'test'}
 		steps{
 			sh '''
-			AWS_REGION= 'us-east-1'
-			AWS_ACCOUNT_ID= '570232566568'
-			ECR_REPO= 'ecr-repo/test'
+			AWS_REGION= us-east-1
+			AWS_ACCOUNT_ID= 570232566568
+			ECR_REPO= ecr-repo/test
 			ECR_REGISTRY=${AWS_ACCOUNT}.dkr.ecr.${AWS_REGION}.amazon.com
 
 			echo 'Tagging docker image'
