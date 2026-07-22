@@ -102,13 +102,13 @@ pipeline{
 		agent{label 'test'}
 		steps{
 			sh '''
-			echo "Tagging docker image"
-			docker tag java-app:latest ${ECR_REGISTRY}/${ECR_REPO}:${env.BUILD_NUMBER}
+			echo Tagging docker image
+			docker tag java-app:latest \${ECR_REGISTRY}/\${ECR_REPO}:\${env.BUILD_NUMBER}
 
-			aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REGISTRY}
+			aws ecr get-login-password --region \${AWS_REGION} | docker login --username AWS --password-stdin \${ECR_REGISTRY}
 
-			echo "Pushing Image to ECR"
-			docker push ${ECR_REGISTRY}/${ECR_REPO}:${env.BUILD_NUMBER}
+			echo Pushing Image to ECR
+			docker push \${ECR_REGISTRY}/\${ECR_REPO}:\${env.BUILD_NUMBER}
 			'''
 		}
 	}
