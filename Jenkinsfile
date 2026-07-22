@@ -14,21 +14,7 @@ pipeline{
 	}
 	
     stages{
-
-	stage('Check Docker Access') {
-    agent { label 'test' }
-
-    steps {
-        sh '''
-            whoami
-            id
-            groups
-            ls -l /var/run/docker.sock
-            docker ps
-        '''
-    }
-}
-   /*     stage("Checkout"){
+        stage("Checkout"){
 			agent {label 'test'}
             steps{
                 git 'https://github.com/jenkins-docs/simple-java-maven-app.git'
@@ -125,6 +111,6 @@ pipeline{
 			docker push ${ECR_REGISTRY}/${ECR_REPO}:${env.BUILD_NUMBER}
 			'''
 		}
-	}*/
+	}
     }
 }
