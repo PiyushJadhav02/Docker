@@ -90,5 +90,25 @@ pipeline{
 			sh 'sudo env TMPDIR=/var/tmp/trivy trivy image java-app:latest'
 		}
 	}
+
+	stage("Push Image to ECR"){
+		agent{label 'test'}
+		steps{
+			sh '''
+			AWS_REGION= 'us-east-1'
+			AWS_ACCOUNT_ID= '570232566568'
+			ECR_REPO= 'ecr-repo/test'
+			ECR_REGISTRY=${AWS_ACCOUNT}.dkr.ecr.${AWS_REGION}.amazon.com
+
+			echo 'Tagging docker image'
+			docker tag java-app:latest ${ECR_REGISTRY}/${ECR_REPO}:latest
+
+			aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REGISTRY}
+
+			echo 'Pushing Image to ECR'
+			docker push ${ECR_REGISTRY}/${ECR_REPO}:latest
+			'''
+		}
+	}
     }
 }
