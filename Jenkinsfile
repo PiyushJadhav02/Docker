@@ -7,10 +7,10 @@ pipeline{
     }
 
 	environment{
-		AWS_REGION= 'us-east-1'
-		AWS_ACCOUNT_ID= '570232566568'
-		ECR_REPO= 'ecr-repo/test'
-		ECR_REGISTRY='${AWS_ACCOUNT}.dkr.ecr.${AWS_REGION}.amazon.com'
+		AWS_REGION='us-east-1'
+		AWS_ACCOUNT_ID='570232566568'
+		ECR_REPO='ecr-repo/test'
+		ECR_REGISTRY='${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com'
 	}
     
     stages{
@@ -103,12 +103,12 @@ pipeline{
 		steps{
 			sh '''
 			echo Tagging docker image
-			docker tag java-app:latest \${ECR_REGISTRY}/\${ECR_REPO}:\${env.BUILD_NUMBER}
+			docker tag java-app:latest ${ECR_REGISTRY}/${ECR_REPO}:${env.BUILD_NUMBER}
 
-			aws ecr get-login-password --region \${AWS_REGION} | docker login --username AWS --password-stdin \${ECR_REGISTRY}
+			aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REGISTRY}
 
 			echo Pushing Image to ECR
-			docker push \${ECR_REGISTRY}/\${ECR_REPO}:\${env.BUILD_NUMBER}
+			docker push ${ECR_REGISTRY}/${ECR_REPO}:${env.BUILD_NUMBER}
 			'''
 		}
 	}
