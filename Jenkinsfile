@@ -108,7 +108,7 @@ pipeline{
 			aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REGISTRY}
 
 			echo Pushing Image to ECR
-			docker push ${ECR_REGISTRY}/${ECR_REPO}:${env.BUILD_NUMBER}
+			docker push ${ECR_REGISTRY}/${ECR_REPO}:${BUILD_NUMBER}
 			'''
 		}
 	}
