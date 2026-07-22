@@ -14,6 +14,6 @@ RUN printf '<html>\n<head><title>Java App</title></head>\n<body>\n<h1>\n' > inde
 
 FROM nginx:latest
 
-COPY --from=build /app/index.html /usr/share/html/index.html
+COPY --from=build /app/index.html /usr/share/nginx/html/index.html
 
 EXPOSE 8080
