@@ -12,6 +12,8 @@ pipeline{
 		ECR_REPO='ecr-repo/test'
 		ECR_REGISTRY="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
 	}
+	
+    stages{
 
 	stage('Check Docker Access') {
     agent { label 'test' }
@@ -26,9 +28,7 @@ pipeline{
         '''
     }
 }
-	
-   /* stages{
-        stage("Checkout"){
+   /*     stage("Checkout"){
 			agent {label 'test'}
             steps{
                 git 'https://github.com/jenkins-docs/simple-java-maven-app.git'
