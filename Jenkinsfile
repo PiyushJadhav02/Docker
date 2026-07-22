@@ -12,8 +12,22 @@ pipeline{
 		ECR_REPO='ecr-repo/test'
 		ECR_REGISTRY="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
 	}
-    
-    stages{
+
+	stage('Check Docker Access') {
+    agent { label 'test' }
+
+    steps {
+        sh '''
+            whoami
+            id
+            groups
+            ls -l /var/run/docker.sock
+            docker ps
+        '''
+    }
+}
+	
+   /* stages{
         stage("Checkout"){
 			agent {label 'test'}
             steps{
@@ -111,6 +125,6 @@ pipeline{
 			docker push ${ECR_REGISTRY}/${ECR_REPO}:${env.BUILD_NUMBER}
 			'''
 		}
-	}
+	}*/
     }
 }
