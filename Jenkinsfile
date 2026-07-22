@@ -10,7 +10,7 @@ pipeline{
 		AWS_REGION='us-east-1'
 		AWS_ACCOUNT_ID='570232566568'
 		ECR_REPO='ecr-repo/test'
-		ECR_REGISTRY='${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com'
+		ECR_REGISTRY="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
 	}
     
     stages{
