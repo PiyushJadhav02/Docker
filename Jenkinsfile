@@ -103,7 +103,7 @@ pipeline{
 		steps{
 			sh '''
 			echo Tagging docker image
-			docker tag java-app:latest ${ECR_REGISTRY}/${ECR_REPO}:${env.BUILD_NUMBER}
+			docker tag java-app:latest ${ECR_REGISTRY}/${ECR_REPO}:${BUILD_NUMBER}
 
 			aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REGISTRY}
 
