@@ -1,0 +1,17 @@
+replicaCount: 3
+
+image:
+  repository: 570232566568.dkr.ecr.us-east-1.amazonaws.com/ecr-repo/test
+  tag: "54"
+  imagePullPolicy: IfNotPresent
+
+service:
+  type: NodePort
+  port: 80
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 4
+  targetCPUUtilizationPercentage: 20
+  targetMemoryUtilizationPercentage: 20
