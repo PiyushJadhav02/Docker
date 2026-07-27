@@ -60,7 +60,7 @@ pipeline{
 		git 'https://github.com/jenkins-docs/simple-java-maven-app.git'
         withSonarQubeEnv('Sonarqube') {
             sh '''
-                mvn sonar:sonar \
+                mvn org.sonarsource.scanner.maven:sonar-maven-plugin:5.5.0.6356:sonar \
                 -Dsonar.projectKey=Mini-Java-App
             '''
             }
