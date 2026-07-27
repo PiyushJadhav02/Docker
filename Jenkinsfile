@@ -112,5 +112,11 @@ pipeline{
 			'''
 		}
 	}
+
+	stage("Deploy"){
+		steps{
+			sh "helm upgrade java-app java-app/ --set image.tag=${BUILD_NUMBER}"
+		}
+	}
     }
 }
