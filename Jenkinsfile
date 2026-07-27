@@ -114,6 +114,7 @@ pipeline{
 	}
 
 	stage("Deploy"){
+		agent {label 'test'}
 		steps{
 			sh "helm upgrade java-app java-app/ --set image.tag=${BUILD_NUMBER}"
 		}
