@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: test
+  name: test-deployment
   labels:
     app: test
 spec:
