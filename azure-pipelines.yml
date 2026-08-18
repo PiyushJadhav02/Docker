@@ -80,7 +80,7 @@ steps:
   displayName: 'Installing Trivy'
 
 - script: |
-    trivy image 'javaapp.azurecr.io/samples:$(Build:BuildId)'
+    trivy image 'javaapp.azurecr.io/samples:$(Build.BuildId)'
   displayName: 'Scanning Image'
 
 
