@@ -67,9 +67,28 @@ steps:
   inputs:
     containerRegistry: 'acr.connection'
     repository: 'samples'
-    command: 'buildAndPush'
+    command: 'build'
     Dockerfile: '**/Dockerfile'
     tags: '$(Build.BuildId)'
+
+- script: |
+    sudo apt-get install wget gnupg -y
+    wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
+    echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb generic main" | sudo tee -a /etc/apt/sources.list.d/trivy.list
+    sudo apt-get update
+    sudo apt-get install trivy -y
+  displayName: 'Installing Trivy'
+
+- script: |
+    trivy image 'javaapp.azurecr.io/samples:$(Build:BuildId)'
+  displayName: 'Scanning Image'
+
+
+- task: Docker@2
+  inputs:
+    containerRegistry: 'acr.connection'
+    repository: 'samples'
+    command: 'push'
 
 - task: AzureContainerApps@1
   inputs:
@@ -79,4 +98,6 @@ steps:
     containerAppName: 'java-app'
     resourceGroup: 'southeast-asia'
     containerAppEnvironment: 'managedEnvironment-southeastasia-aae8'
+
+
 
