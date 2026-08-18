@@ -69,5 +69,5 @@ steps:
     repository: 'samples'
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
-    tags: 'javaapp.azurecr.io/samples/java-app'
+    tags: 'java-app'
 
