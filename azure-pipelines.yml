@@ -58,13 +58,16 @@ steps:
     ArtifactName: 'drop'
     publishLocation: 'Container'
 
-- task: Docker@2
-  inputs:
-    command: 'build'
-    Dockerfile: '**/Dockerfile'
+# - task: Docker@2
+#   inputs:
+#     command: 'build'
+#     Dockerfile: '**/Dockerfile'
 
 - task: Docker@2
   inputs:
     containerRegistry: 'acr.connection'
-    command: 'push'
+    repository: 'samples'
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile'
+    tags: 'javaapp.azurecr.io/samples/java-app'
 
