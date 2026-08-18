@@ -69,12 +69,13 @@ steps:
     repository: 'samples'
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
-    tags: 'java-app'
+    tags: '$(Build.BuildId)'
+
 - task: AzureContainerApps@1
   inputs:
     azureSubscription: 'Azure subscription 1 (8431e1c8-d61d-43da-80f2-e02677f52b6c)'
     acrName: 'javaapp'
-    imageToDeploy: 'javaapp.azurecr.io/samples:java-app'
+    imageToDeploy: 'javaapp.azurecr.io/samples:$(Build.BuildId)'
     containerAppName: 'java-app'
     resourceGroup: 'southeast-asia'
     containerAppEnvironment: 'managedEnvironment-southeastasia-aae8'
