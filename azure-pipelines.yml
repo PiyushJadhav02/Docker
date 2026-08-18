@@ -63,3 +63,8 @@ steps:
     command: 'build'
     Dockerfile: '**/Dockerfile'
 
+- task: Docker@2
+  inputs:
+    containerRegistry: 'acr.connection'
+    command: 'push'
+
