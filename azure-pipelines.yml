@@ -31,3 +31,18 @@ steps:
     mavenVersionOption: 'Default'
     mavenAuthenticateFeed: false
     effectivePomSkip: false
+
+- task: Maven@4
+  inputs:
+    azureSubscription: 'Azure subscription 1 (8431e1c8-d61d-43da-80f2-e02677f52b6c)'
+    mavenPomFile: 'pom.xml'
+    options: '-B'
+    publishJUnitResults: true
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: 1.21
+    mavenVersionOption: 'Default'
+    mavenAuthenticateFeed: false
+    effectivePomSkip: false
+    sonarQubeRunAnalysis: false
+
