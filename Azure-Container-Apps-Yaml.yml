@@ -1,0 +1,93 @@
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  - group: Key-Vault-Secrets
+
+steps:
+- script: echo $(Test)
+  displayName: 'Getting Secret'
+
+- task: Maven@4
+  inputs:
+    azureSubscription: 'Azure subscription 1 (8431e1c8-d61d-43da-80f2-e02677f52b6c)'
+    mavenPomFile: 'pom.xml'
+    options: '-B'
+    goals: 'clean test'
+    publishJUnitResults: true
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: 1.21
+    mavenVersionOption: 'Default'
+    mavenAuthenticateFeed: false
+    effectivePomSkip: false
+
+- task: Maven@4
+  inputs:
+    azureSubscription: 'Azure subscription 1 (8431e1c8-d61d-43da-80f2-e02677f52b6c)'
+    mavenPomFile: 'pom.xml'
+    options: '-B'
+    publishJUnitResults: true
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: 1.21
+    mavenVersionOption: 'Default'
+    mavenAuthenticateFeed: false
+    effectivePomSkip: false
+    sonarQubeRunAnalysis: false
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(system.defaultWorkingDirectory)/target'
+    Contents: '*.jar'
+    TargetFolder: '$(build.artifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+
+# - task: Docker@2
+#   inputs:
+#     command: 'build'
+#     Dockerfile: '**/Dockerfile'
+
+- task: Docker@2
+  inputs:
+    containerRegistry: 'acr.connection'
+    repository: 'samples'
+    command: 'build'
+    Dockerfile: '**/Dockerfile'
+    tags: '$(Build.BuildId)'
+
+- script: |
+    sudo apt-get install wget gnupg -y
+    wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
+    echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb generic main" | sudo tee -a /etc/apt/sources.list.d/trivy.list
+    sudo apt-get update
+    sudo apt-get install trivy -y
+  displayName: 'Installing Trivy'
+
+- script: |
+    trivy image 'javaapp.azurecr.io/samples:$(Build.BuildId)'
+  displayName: 'Scanning Image'
+
+
+- task: Docker@2
+  inputs:
+    containerRegistry: 'acr.connection'
+    repository: 'samples'
+    command: 'push'
+
+- task: AzureContainerApps@1
+  inputs:
+    azureSubscription: 'Azure subscription 1 (8431e1c8-d61d-43da-80f2-e02677f52b6c)'
+    acrName: 'javaapp'
+    imageToDeploy: 'javaapp.azurecr.io/samples:$(Build.BuildId)'
+    containerAppName: 'java-app'
+    resourceGroup: 'southeast-asia'
+    containerAppEnvironment: 'managedEnvironment-southeastasia-aae8'
