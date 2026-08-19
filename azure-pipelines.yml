@@ -51,11 +51,6 @@ steps:
     ArtifactName: 'drop'
     publishLocation: 'Container'
 
-# - task: Docker@2
-#   inputs:
-#     command: 'build'
-#     Dockerfile: '**/Dockerfile'
-
 - task: Docker@2
   inputs:
     containerRegistry: 'acr.connection'
@@ -83,14 +78,7 @@ steps:
     repository: 'samples'
     command: 'push'
 
-- task: AzureContainerApps@1
-  inputs:
-    azureSubscription: 'Azure subscription 1 (8431e1c8-d61d-43da-80f2-e02677f52b6c)'
-    acrName: 'javaapp'
-    imageToDeploy: 'javaapp.azurecr.io/samples:$(Build.BuildId)'
-    containerAppName: 'java-app'
-    resourceGroup: 'southeast-asia'
-    containerAppEnvironment: 'managedEnvironment-southeastasia-aae8'
+
 
 
 
