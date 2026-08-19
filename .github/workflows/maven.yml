@@ -13,6 +13,12 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  workflow_dispatch: # Enables the manual "Run workflow" button
+    inputs:          # Optional: Add custom input fields if needed
+      environment:
+        description: 'Target Environment'
+        required: true
+        default: 'staging'
 
 permissions: 
   contents: write
